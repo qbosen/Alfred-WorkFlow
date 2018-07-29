@@ -1,7 +1,7 @@
 # encoding: utf-8
 
 import sys
-from workflow import Workflow, web, ICON_INFO, ICON_ERROR
+from workflow import Workflow, web
 from commands import getoutput
 from urlparse import urlparse
 import socket
@@ -101,9 +101,9 @@ def main(wf):
                     subtitle=ip + ' ' + location if location else '', 
                     arg=ip,
                     valid=True,
-                    icon=ICON_INFO)
+                    icon='icon.png')
     else:
-        wf.add_item(title=title, subtitle='...', icon=ICON_ERROR)
+        wf.add_item(title=title, subtitle='...', icon='wrong.png')
     
     wf.send_feedback()
 
