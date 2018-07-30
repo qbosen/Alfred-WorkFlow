@@ -109,5 +109,4 @@ def main(wf):
 
 if __name__ == u"__main__":
     wf = Workflow()
-    wf.set_last_version('1.36')
     sys.exit(wf.run(main))
