@@ -11,6 +11,7 @@ def main(wf):
     search = wf.args[0]
     qlist = query(search)
     dicBook = loadDumps()
+    hasResult = False
     for item in qlist:
         if dicBook.has_key(item):
             hasResult = True
