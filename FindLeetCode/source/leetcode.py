@@ -12,25 +12,23 @@ def main(wf):
     qlist = query(search)
     dicBook = loadDumps()
     for item in qlist:
-        if not dicBook.has_key(item):
-            qlist.remove(item)
+        if dicBook.has_key(item):
+            hasResult = True
+            addDicItem(wf, dicBook[item])
 
-    if not len(qlist):
+    if not hasResult:
         wf.add_item(
             title = u'没有匹配的结果', 
             subtitle = u'在 leetcode.cn 中搜索...', 
             icon = 'icon/wrong.png', 
             valid = True,
             arg = urls.SEARCH_CN % search)
-    else:
-        for item in qlist:
-            addDicItem(wf, dicBook[item])
 
     wf.send_feedback()
 
 def query(qstr):
     text = web.get(urls.QUERY_CN % qstr).text[1:-1]
-    qlist = text.split(',')
+    qlist = text.encode('utf8').split(',')
     return qlist
 
 def loadDumps():

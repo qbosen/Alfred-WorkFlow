@@ -20,13 +20,13 @@ def main():
         
 
 def parseTd(tds):
-    index = tds[1].get_text()
-    en_name = tds[2]['value']
+    index = tds[1].get_text().encode('utf8')
+    en_name = tds[2]['value'].encode('utf8')
     aTag = tds[2].a
-    href = aTag['href']
-    ch_name = aTag.get_text()
-    percent = tds[4].get_text()
-    level = tds[5].span.get_text()
+    href = aTag['href'].encode('utf8')
+    ch_name = aTag.get_text().encode('utf8')
+    percent = tds[4].get_text().encode('utf8')
+    level = tds[5].span.get_text().encode('utf8')
     dic = {
         'index':index,
         'en_name':en_name,
