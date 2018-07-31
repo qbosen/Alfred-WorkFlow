@@ -1,4 +1,4 @@
-## Find LeetCode 根据题目名称查找题号，或者通过题号查找题目。确认复制网址到剪贴板。
+## Find LeetCode 根据题目名称查找题号，或者通过题号查找题目。在网页搜索或查看。
 
 [下载](https://github.com/qbosen/Alfred-WorkFlow/raw/master/FindLeetCode/FindLeetCode.alfredworkflow)
 
