@@ -1,6 +1,6 @@
 ## Effective-IP 查询本机IP和外网地址，解析URL或者域名，查询归属地和运营商
 
-![](https://i.loli.net/2018/07/29/5b5de193d616c.gif)
+![](../pic/IP/effectiveIp.gif)
 
 [下载](https://github.com/qbosen/Alfred-WorkFlow/blob/master/EffectiveIP/Effective%20IP.alfredworkflow)
 
