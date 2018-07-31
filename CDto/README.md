@@ -3,7 +3,7 @@
 
 ![](../pic/CDto/CDto.gif)
 
-[下载](https://github.com/qbosen/Alfred-WorkFlow/blob/master/CDto/CD.alfredworkflow)
+[下载](https://github.com/qbosen/Alfred-WorkFlow/raw/master/CDto/CD.alfredworkflow)
 
 ## 参考资料
 [Alfred Workflow教程与实例](https://github.com/stidio/Alfred-Workflow)
