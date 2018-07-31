@@ -98,7 +98,8 @@
 		</dict>
 	</array>
 	<key>readme</key>
-	<string></string>
+	<string>查看自身ip, 或者解析目标host
+回车可以复制 ip 到粘贴板</string>
 	<key>uidata</key>
 	<dict>
 		<key>2B2D6691-503E-4F43-A739-DCCD31F8EB6C</key>
@@ -116,6 +117,8 @@
 			<integer>170</integer>
 		</dict>
 	</dict>
+	<key>version</key>
+	<string>1.2.0</string>
 	<key>webaddress</key>
 	<string>https://github.com/qbosen/Alfred-WorkFlow/blob/master/EffectiveIP/README.md</string>
 </dict>
