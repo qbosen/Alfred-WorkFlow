@@ -2,7 +2,7 @@
 自己写的 `Alfred WorkFlow` 的一些小工具
 
 ### CDto
-在 `iTerm`  打开并转到任意文件夹或文件所在目录，
+在 `iTerm`  打开并转到任意文件夹或文件所在目录。
 
 
 [详情](https://github.com/qbosen/Alfred-WorkFlow/blob/master/CDto/README.md)
