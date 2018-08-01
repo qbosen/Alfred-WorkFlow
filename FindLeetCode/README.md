@@ -12,11 +12,11 @@
 ![](../pic/FindLC/question_name.gif)
 
 #### 3. 修饰键
-return : 在描述页打开
+enter : 在描述页打开
 
-cmd + return : 搜索输入内容
+cmd + enter : 搜索输入内容
 
-opt + return : 在讨论页打开
+opt + enter : 在讨论页打开
 
 ---
 ## PS
