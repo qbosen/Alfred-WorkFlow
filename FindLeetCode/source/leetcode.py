@@ -14,9 +14,11 @@ def main(wf):
     qlist = query(search)
     dicBook = loadDumps()
     hasResult = False
+    count = 0
     for item in qlist:
-        if dicBook.has_key(item):
+        if dicBook.has_key(item) and count < 20:
             hasResult = True
+            count = count + 1
             addDicItem(wf, dicBook[item], search, symbol)
 
     if not hasResult:
