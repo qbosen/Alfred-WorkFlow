@@ -28,7 +28,12 @@ class AliyunMaven(object):
     def action(self, query):
         mvnjson = web.get(mstr.ALI_REP % query).json()
         items = mvnjson['object']
+        count = 0
+        limit = int(os.getenv('limit')) or 20
         for item in items:
+            if not count < limit:
+                break
+            count = count + 1
             self._get_item_dic(item)
 
     def _get_item_dic(self,item):
@@ -63,7 +68,9 @@ class CentralMaven(object):
         self.wf = wf
 
     def action(self, query):
-        mvnjson = web.get(mstr.CEN_REP % query).json()
+        limit = os.getenv('limit') or 20
+        url = mstr.CEN_REP % (limit, query)
+        mvnjson = web.get(url).json()
         items = mvnjson['response']['docs']
         for item in items:
             self._get_item_dic(item)

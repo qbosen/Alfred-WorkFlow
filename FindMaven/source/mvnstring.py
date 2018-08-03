@@ -1,6 +1,6 @@
 
 # The Central Repository
-CEN_REP = "http://search.maven.org/solrsearch/select?&rows=20&q=%s"
+CEN_REP = "http://search.maven.org/solrsearch/select?&rows=%s&q=%s"
 
 # Maven pattern
 MVN_PTN = "<dependency>\n  <groupId>%s</groupId>\n  <artifactId>%s</artifactId>\n  <version>%s</version>\n</dependency>"
