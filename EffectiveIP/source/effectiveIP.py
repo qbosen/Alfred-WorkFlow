@@ -21,10 +21,10 @@ def get_location_information(ip):
         rt = web.get(LOCATION_QUERY_URL, dict(ip=ip, action=2))
         rt.raise_for_status()
         rts = rt.text[
-            rt.text.find(FEATURE_BEGIN_STR) + len(FEATURE_BEGIN_STR) : 
-            rt.text.find(FEATURE_END_STR)]
+              rt.text.find(FEATURE_BEGIN_STR) + len(FEATURE_BEGIN_STR):
+              rt.text.find(FEATURE_END_STR)]
         rtlist = rts.split(FEATURE_SPLIT_STR)
-        
+
         # 去掉前缀和多余空格，最长的即是最优解
         result = ''
         for val in rtlist:
@@ -46,13 +46,14 @@ def get_location_information(ip):
         result = None
 
     return result
-    
+
 
 def get_local_ip():
     '''
     获取内网本机ip
     '''
     return getoutput('ipconfig getifaddr en0')
+
 
 def get_public_ip():
     '''
@@ -62,11 +63,12 @@ def get_public_ip():
     try:
         rt = web.get(PUBLIC_IP_QUERY_URL)
         rt.raise_for_status()
-        ip = rt.text[rt.text.find('[') + 1 : rt.text.find(']')]
+        ip = rt.text[rt.text.find('[') + 1: rt.text.find(']')]
     except Exception:
         ip = None
 
     return ip
+
 
 def resolve_ip_from_dns(urlorhost):
     '''
@@ -82,8 +84,8 @@ def resolve_ip_from_dns(urlorhost):
         ip = None
     return host, ip
 
-def main(wf):
 
+def main(wf):
     param = wf.args[0].strip()
 
     if not param:
@@ -97,15 +99,16 @@ def main(wf):
     if ip:
         # 如果有解
         location = get_location_information(ip)
-        wf.add_item(title=title, 
-                    subtitle=ip + ' ' + location if location else '', 
+        wf.add_item(title=title,
+                    subtitle=ip + ' ' + location if location else '',
                     arg=ip,
                     valid=True,
                     icon='icon.png')
     else:
         wf.add_item(title=title, subtitle='...', icon='wrong.png')
-    
+
     wf.send_feedback()
+
 
 if __name__ == u"__main__":
     wf = Workflow()
