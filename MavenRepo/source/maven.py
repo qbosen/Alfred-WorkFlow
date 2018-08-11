@@ -34,12 +34,14 @@ class MavenRepo(object):
         icon_url = item.find('img')['src'].encode('utf-8')
         t_div = item.find(class_='im-title')
         title = t_div.a.get_text().encode('utf-8')
-        detail_url = self.base_url + t_div.a['href'].encode('utf-8')
         usage = t_div.find(class_='im-usage').b.get_text().replace(',', '').encode('utf-8')
+        group, artifact = t_div.a['href'].encode('utf-8')[10:].split('/')
         sub_div = item.find(class_='im-subtitle').find_all('a')
         artifact_info = ' > '.join([t.get_text() for t in sub_div]).encode('utf-8')
         subtitle = 'Usage: %-9s %s' % (usage, artifact_info)
-        message = {'title': title, 'icon_url': icon_url, 'detail_url': detail_url, 'subtitle': subtitle}
+        message = {'title': title, 'icon_url': icon_url, 'subtitle': subtitle}
+        self.wf.setvar('group', group)
+        self.wf.setvar('artifact', artifact)
         self._append(message)
 
     def _append(self, dic):
@@ -47,11 +49,11 @@ class MavenRepo(object):
             title=dic['title'],
             subtitle=dic['subtitle'],
             valid=True,
-            arg=dic['detail_url'],
+            arg='version',
             # icon=dic['icon_url'],
             icon=ICON_INFO,
         )
-        cmd = it.add_modifier('cmd', '在 %s 中搜索...' % self.base_url)
+        cmd = it.add_modifier('cmd', 'Search in %s...' % self.base_url)
         cmd.setvar('url', self.search_url % wf.getvar('q'))
 
 
