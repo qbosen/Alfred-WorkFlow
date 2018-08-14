@@ -1,3 +1,5 @@
 .vscode
-***/*.pyc
+**/*.pyc
 **/.idea
+**/test.py
+**/dumps.mvn
