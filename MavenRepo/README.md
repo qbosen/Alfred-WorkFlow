@@ -32,11 +32,13 @@ MvnRepo 可以搜索 Java Library 并复制配置，或者在浏览器打开。
 			对相同内容的搜索，如果超过设置天数就重新从网页获取
 ```
 
-❍ 1. 对 scope 进行适配
+❍ 1. 对 scope 进行适配 @added(18-08-12 11:20)
 
 ✔ 2. 支持对 version 进行过滤  @done(18-08-14 12:29)
 
 ✔ 3. 支持 cache 缓存  @done(18-08-14 15:02)
+
+❍ 4. 手动清除缓存(存在缓存时修改`step_version`设置,需要手动清理) @added(18-08-14 15:19)
 
 
 [findMavenReadeMe]:[https://github.com/qbosen/Alfred-WorkFlow/blob/master/FindMaven/README.md]
