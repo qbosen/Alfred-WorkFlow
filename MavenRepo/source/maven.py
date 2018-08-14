@@ -19,6 +19,7 @@ class MavenRepo(object):
         self.base_url = "https://mvnrepository.com"
         self.search_url = "https://mvnrepository.com/search?q=%s"
         self.wf = wf
+        self.holder = os.getenv('holder')
 
     def action(self, query):
         url = self.search_url % query
@@ -49,7 +50,7 @@ class MavenRepo(object):
             title=dic['title'],
             subtitle=dic['subtitle'],
             valid=True,
-            arg='version',
+            arg=self.holder,
             # icon=dic['icon_url'],
             icon=ICON_INFO,
         )
