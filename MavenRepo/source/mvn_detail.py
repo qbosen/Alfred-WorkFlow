@@ -3,6 +3,12 @@ import sys
 import os
 from workflow import web, Workflow3, ICON_INFO
 from bs4 import BeautifulSoup
+from datetime import datetime
+
+try:
+    import cPickle as pickle
+except ImportError:
+    import pickle
 
 detail_url = 'https://mvnrepository.com/artifact/'
 maven_config = \
@@ -11,24 +17,63 @@ gradle_config = "compile group: '%s', name: '%s', version: '%s'"
 
 
 def main(wf):
-    log.info("args:" + str(wf.args))
     query = wf.args[1] if (len(wf.args) > 1) else None
     log.info("query:" + str(query))
-    group = os.getenv('group')
-    artifact = os.getenv('artifact')
-    RepoDetail(wf, group, artifact).action(query)
+
+    gid = '{}:{}'.format(os.getenv('group'), os.getenv('artifact'))
+    cache = CacheDumps('dumps.mvn')
+    RepoDetail(wf, cache, gid).get_items().filter_and_append(query)
+
     wf.warn_empty('No result found!', 'Try other inputs...', icon='wrong.png')
     wf.send_feedback()
 
 
+class CacheDumps(object):
+    def __init__(self, file_name):
+        self.file_name = file_name
+        self.dumps = {}
+        self.period = int(os.getenv('cache_days') or '0')
+        self.cache_open = self.period > 0
+
+    def load_dumps(self):
+        if self.cache_open:
+            try:
+                with open(self.file_name, "rb") as f:
+                    self.dumps = pickle.loads(f.read())
+                    log.info('load cache')
+            except Exception as e:
+                log.warn(e)
+        return self
+
+    def get_data(self, gid):
+        if not self.cache_open:
+            return []
+
+        if gid not in self.dumps:
+            return []
+        days_from_last = (datetime.now() - self.dumps[gid]['time']).days
+        log.info("days from last update / setting period : %s / %s" % (days_from_last, self.period))
+
+        return self.dumps[gid]['data'] if days_from_last < self.period else []
+
+    def write_dumps(self, gid, item_list):
+        if not self.cache_open:
+            return
+        self.dumps[gid] = {'time': datetime.now(), 'data': item_list}
+        with open(self.file_name, 'wr') as f:
+            pickle.dump(self.dumps, f)
+            log.info('write cache')
+
+
 class RepoDetail(object):
-    def __init__(self, wf, group, artifact):
+    def __init__(self, wf, cache, gid):
         self.wf = wf
-        self.group = group
-        self.artifact = artifact
+        self.cache = cache
+        self.gid = gid
+        self.group, self.artifact = gid.split(':')
         self.big_step = self.get_step_version()
-        self.url = '%s%s/%s' % (detail_url, group, artifact)
-        self.item_dic = []
+        self.url = '%s%s/%s' % (detail_url, self.group, self.artifact)
+        self.items = []
 
     @staticmethod
     def get_step_version():
@@ -36,7 +81,25 @@ class RepoDetail(object):
         false_set = {'0', 'false', 'False', '', 'null', 'None'}
         return False if step in false_set else True
 
-    def action(self, _filter):
+    def get_items(self):
+        data_list = self.cache.load_dumps().get_data(self.gid)
+        if len(data_list):
+            self.items = data_list
+        else:
+            self._from_url()
+            self.cache.write_dumps(self.gid, self.items)
+        return self
+
+    def filter_and_append(self, _filter):
+        def key_for_dic(dic):
+            return dic['version']
+
+        its = self.wf.filter(_filter, self.items, key_for_dic)
+        for it in its:
+            self._append_wf(it)
+        return self
+
+    def _from_url(self):
         content = web.get(self.url).content
         search_page = BeautifulSoup(content, 'html.parser')
         big_versions = search_page.find('table', class_="grid versions").find_all('tbody')
@@ -44,25 +107,19 @@ class RepoDetail(object):
         for big_version in big_versions:
             self._parse_version_block(big_version)
 
-        def key_for_dic(dic):
-            return dic['version']
-
-        log.info('before: ' + str(len(self.item_dic)))
-
-        its = self.wf.filter(_filter, self.item_dic, key_for_dic)
-        log.info('after: ' + str(len(its)))
-        for it in its:
-            self._append_wf(it)
-
     def _parse_version_block(self, big_version):
+        """
+        parse a big version block
+        if 'big_step' then only parse the newest version
+        """
         small_versions = big_version.find_all('tr')
         if self.big_step:
-            self._parse_tr_and_append(small_versions[0])
+            self._parse_version_detail(small_versions[0])
         else:
             for version in small_versions:
-                self._parse_tr_and_append(version)
+                self._parse_version_detail(version)
 
-    def _parse_tr_and_append(self, block):
+    def _parse_version_detail(self, block):
         def td_but_no_class(tag):
             return not tag.has_attr('rowspan') and tag.name == 'td'
 
@@ -71,7 +128,7 @@ class RepoDetail(object):
         usage = tds[2].get_text().replace(',', '').encode('utf-8')
         date = tds[3].get_text().encode('utf-8')
         info = (self.group, self.artifact, version)
-        self.item_dic.append({
+        self.items.append({
             'version': version,
             'usage': usage,
             'date': date,
