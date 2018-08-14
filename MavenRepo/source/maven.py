@@ -50,7 +50,7 @@ class MavenRepo(object):
             title=dic['title'],
             subtitle=dic['subtitle'],
             valid=True,
-            arg=self.holder,
+            arg=self.holder + ' ',
             # icon=dic['icon_url'],
             icon=ICON_INFO,
         )
