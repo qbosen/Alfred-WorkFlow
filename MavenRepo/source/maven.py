@@ -10,7 +10,7 @@ def main(wf):
     # 保存输入查询
     wf.setvar('q', query, persist=False)
     MavenRepo(wf).action(query)
-    wf.warn_empty('No result found!', 'Try other inputs...', icon='wrong.png')
+    wf.warn_empty('No result found!', 'Try other inputs...', icon='icons/wrong.png')
     wf.send_feedback()
 
 
