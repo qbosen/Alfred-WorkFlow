@@ -1,17 +1,18 @@
 ## MavenRepo 在 mvnRepository 中查找依赖
 
-本来已经写了一个 [FindMaven][findMavenReadeMe] 插件了, 但是不得不说 阿里云和 CentralMaven 的相关性搜索太差了。
+本来已经写了一个 [FindMaven][https://github.com/qbosen/Alfred-WorkFlow/blob/master/FindMaven/README.md] 插件了,
+但是不得不说 阿里云和 CentralMaven 的相关性搜索太差了。
 
 因为 `mvnRepository` 没有找到查询接口, 同时也需要二次查询, 所以单独写了一个插件
 
-因为网络文件，所以速度比较慢。可以设置 `Alfred proxy` 解决。 **已经添加了缓存机制**
+因为网络问题，所以速度比较慢。可以设置 `Alfred proxy` 解决。 **已经添加了缓存机制**
 
 ```
 MvnRepo 可以搜索 Java Library 并复制配置，或者在浏览器打开。
 支持的 Repo: mvnrepository.com
 
 支持的操作:
-1. return: 			复制 gradle 配置 group:name:version
+1. return:   		复制 gradle 配置 group:name:version
 2. alt + return: 	复制 Maven 配置
 3. ctrl + return: 	复制 gradle 配置
 4. cmd + return: 	打开浏览器，在 mvnrepository 中查看详情
@@ -41,4 +42,3 @@ MvnRepo 可以搜索 Java Library 并复制配置，或者在浏览器打开。
 ❍ 4. 手动清除缓存(存在缓存时修改`step_version`设置,需要手动清理) @added(18-08-14 15:19)
 
 
-[findMavenReadeMe]:[https://github.com/qbosen/Alfred-WorkFlow/blob/master/FindMaven/README.md]
