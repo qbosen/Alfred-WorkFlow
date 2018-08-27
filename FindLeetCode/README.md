@@ -18,6 +18,13 @@ cmd + enter : 搜索输入内容
 
 opt + enter : 在讨论页打开
 
+ctrl + enter : 生成文件`java`文件
+
+#### 关于生成文件注意在环境变量中进行设置
+更多使用方式参考: [LeetcodeFileGenerator](https://github.com/qbosen/leetcode_file_generator/blob/master/README-zh.md)
+
+题目信息格式参考: [LeetcodeFileFormat](https://github.com/qbosen/leetcode_file_generator/blob/master/Formats.md)
+
 ---
 ## PS
 
