@@ -1,63 +1,70 @@
-# encoding: utf-8
+# coding: utf-8
+import os
 import sys
-from workflow import Workflow,web
 import urls
+
+from workflow import Workflow3, web
+
 try:
     import cPickle as pickle
 except ImportError:
     import pickle
 
+
 def main(wf):
     search = wf.args[0]
-    # option + b 用于分割输入输出
-    symbol = u'∫'
-    qlist = query(search)
-    dicBook = loadDumps()
-    hasResult = False
+    wf.setvar('q', search, persist=False)
+    q_list = query(search)
+    q_dict = load_dumps()
+
     count = 0
-    for item in qlist:
-        if dicBook.has_key(item) and count < 20:
-            hasResult = True
+    limit = os.getenv('limit') or '20'
+    limit = int(limit)
+    for item in q_list:
+        if item in q_dict and count < limit:
             count = count + 1
-            addDicItem(wf, dicBook[item], search, symbol)
+            add_item(wf, q_dict[item])
 
-    if not hasResult:
-        wf.add_item(
-            title = u'没有匹配的结果', 
-            subtitle = u'在 leetcode.cn 中搜索...', 
-            icon = 'icon/wrong.png', 
-            valid = True,
-            arg = '%s%s%s'% (search, symbol,'')
-        )
-
+    wf.warn_empty('No result found!', 'Try other inputs...', icon='icon/wrong.png')
     wf.send_feedback()
 
-def query(qstr):
-    text = web.get(urls.QUERY_CN % qstr).text[1:-1]
-    qlist = text.encode('utf8').split(',')
-    return qlist
 
-def loadDumps():
-    dic = pickle.load(open('dumps.txt','r'))
+def query(q_str):
+    text = web.get(urls.QUERY_CN % q_str).text[1:-1]
+    q_list = text.encode('utf8').split(',')
+    return q_list
+
+
+def load_dumps():
+    dic = pickle.load(open('dumps.txt', 'r'))
     return dic
 
-def addDicItem(wf, dic, search, symbol):
+
+def add_item(wf, dic):
     icon_dic = {
-        u'简单' : 'icon/easy.png',
-        u'中等' : 'icon/medium.png',
-        u'困难' : 'icon/hard.png',
+        u'简单': 'icon/easy.png',
+        u'中等': 'icon/medium.png',
+        u'困难': 'icon/hard.png',
     }
-    wf.add_item(
-        title = '[%s] %s' % (dic['index'], dic['ch_name']),
+    level = dic['level'].decode('utf-8')
+    it = wf.add_item(
+        title='[%s] %s' % (dic['index'], dic['ch_name']),
         # subtitle = '[%s] %s %s' % (dic['level'], dic['en_name'], dic['percent']),
-        subtitle = '[%s] %s ' % (dic['percent'], dic['en_name']),
-        arg = '%s%s%s'% (search, symbol, dic['path']),
-        valid = True,
-        icon = icon_dic[dic['level']]
+        subtitle='[%s] %s ' % (dic['percent'], dic['en_name']),
+        arg=dic['index'],
+        valid=True,
+        icon=icon_dic[level]
     )
+    it.setvar('url', urls.DESCRIPTION_CN % dic['path'])
+    cmd = it.add_modifier('cmd', 'Searching in leetcode-cn.com...')
+    cmd.setvar('url', urls.SEARCH_CN % wf.getvar('q'))
+    alt = it.add_modifier('alt', 'Open discussion in leetcode.com...')
+    alt.setvar('url', urls.DISCUSS % dic['path'])
+    ctrl = it.add_modifier('ctrl', 'Generate files...')
+    ctrl.setvar('index', dic['index'])
+
 
 if __name__ == '__main__':
-    wf = Workflow()
-    # Assign Workflow logger to a global variable for convenience
+    wf = Workflow3()
     log = wf.logger
     sys.exit(wf.run(main))

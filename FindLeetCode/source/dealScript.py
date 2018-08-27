@@ -1,3 +1,4 @@
+# coding=utf-8
 import sys
 import re
 
@@ -20,22 +21,22 @@ DISCUSS = "https://leetcode.com/problems/%s/discuss/"
 
 m = re.match(regx, content)
 if m:
-	query, title = m.group(1), m.group(2)
+    query, title = m.group(1), m.group(2)
 else:
-	query, title = '',''
+    query, title = '', ''
 
 hasItem = title != ''
 if hasItem:
-	if cmd == 'alt':
-		url = DISCUSS % title
-	elif cmd == 'cmd':
-		url = SEARCH_CN % query
-	else:
-		url = DESCRIPTION_CN % title
+    if cmd == 'alt':
+        url = DISCUSS % title
+    elif cmd == 'cmd':
+        url = SEARCH_CN % query
+    else:
+        url = DESCRIPTION_CN % title
 else:
-	if cmd == 'alt':
-		url = SEARCH % query
-	else:
-		url = SEARCH_CN % query
+    if cmd == 'alt':
+        url = SEARCH % query
+    else:
+        url = SEARCH_CN % query
 
 sys.stdout.write(url)
