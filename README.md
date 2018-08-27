@@ -29,7 +29,7 @@
 [下载](https://github.com/qbosen/Alfred-WorkFlow/raw/master/FindMaven/Mavens.alfredworkflow)
 
 ### MavenRepo
-根据题目名称查找题号，或者通过题号查找题目。在网页搜索或查看。
+MvnRepo 可以搜索 Java Library 并复制配置，或者在浏览器打开。支持版本选择。
 
 [详情](https://github.com/qbosen/Alfred-WorkFlow/blob/master/MavenRepo/README.md)
 [下载](https://github.com/qbosen/Alfred-WorkFlow/raw/master/MavenRepo/MvnRepo.alfredworkflow)
