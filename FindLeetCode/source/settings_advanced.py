@@ -34,6 +34,11 @@ symbol_map = {
     '&circ;': '^',
     '&tilde;': '~',
     '&nbsp;': ' ',
+    '&le;': u'≤',
+    '&ge;': u'≥',
+    '&#39;': '\'',
+    '&ldquo;': '\"',
+    '&rdquo;': '\"',
 }
 # the tags will be cleared in pre scope when get md preview
 # or remain when get html preview
@@ -47,7 +52,7 @@ ad_md_pattern = u'''### {title}
 |英文名|{title_en}|
 |难度|{difficulty}|
 |通过率|{percent}|
-|链接|[{path}](https://leetcode-cn.com/problems/{path}/description/)
+|链接|[{path}](https://leetcode-cn.com/problems/{path}/description/)|
 |标签|{topics}|
 |topics|{topics_en}|
 
