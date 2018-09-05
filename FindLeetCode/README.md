@@ -26,20 +26,11 @@ ctrl + enter : 生成文件`java`文件
 题目信息格式参考: [LeetcodeFileFormat](https://github.com/qbosen/leetcode_file_generator/blob/master/Formats.md)
 
 ---
-## PS
+#### 更新文件或者生成目录
 
-本来打算实时爬取的，发现难度较大，所以用取巧的方式，先把数据保存下载再进行匹配。
+使用 `lcup` 来更新 `dumps.txt` 文件或者生产 `README.md`
 
-#### 如何更新数据？
-1. 直接打开 [leetcode题库](https://leetcode-cn.com/problemset/all/) 页面，
-每页数量选择全部，检阅选中至 `tbody` 部分，复制代码保存为 `html` 文件。
+* 更新 `leetcode` 的本地资源，这个资源是用来加速本地搜索的。
+* 根据 `src_path` 下的包名，生成 索引表文件
 
-![](../pic/FindLC/html_manul.jpg)
-
-2. 使用 [parseHtml.py](source/parseHtml.py) 解析数据并序列化为 `dumps.txt`。
-（依赖 [BeautifulSoup4](source/bs4)）
-```shell
-python parseHtml.py default.html
-```
-
-3. 将 `dumps.txt` 覆盖掉用户 `workflow` 下对应的文件
+![](../pic/FindLC/lcup.png)
