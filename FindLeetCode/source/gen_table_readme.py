@@ -92,7 +92,8 @@ def scan_path(src):
     def get_qids(path):
         ids = []
         pattern = re.compile(r'q0*(\d+)')
-        for d in os.listdir(path):
+        files = sorted(os.listdir(path))
+        for d in files:
             m = pattern.match(d)
             if m:
                 ids.append(m.group(1))
