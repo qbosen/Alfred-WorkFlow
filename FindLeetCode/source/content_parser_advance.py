@@ -14,7 +14,7 @@ class AdvancedDescriptionParser(object):
         self.data = {}
 
     def parse_template_code(self, code):
-        signature = re.compile(r'public\s(\w+)\s(\w+)\((.*?)\)\s{')
+        signature = re.compile(r'public\s(\S+?)\s(\w+)\((.*?)\)\s{')
         m = signature.search(code)
         if m:
             first_param = m.group(3)
