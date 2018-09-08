@@ -118,7 +118,7 @@ public class SolutionTest {{
         testAnswer(param, expect);
     }}
 
-    private void testAnswer({sign[param_1]} input, int expect) {{
+    private void testAnswer({sign[param_1]} input, {sign[ret]} expect) {{
         for (Answer answer : answers) {{
             {sign[param_1]} param = cloner.deepClone(input);
             {sign[ret]} result = answer.{sign[name]}(param);
